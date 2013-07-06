@@ -1,0 +1,18 @@
+Errors:
+- ignore Fields zeigen komische Zahlen an, vermutlich UID
+
+
+ToDo:
+- Check im IE
+
+- Konfiguration pro Tabelle per TS: 
+  - welche Felder, Default-Werte
+  - disable preview
+
+plugin.import_excel {
+    tables.tablename1.show_fields = 
+    tables.tablename1.ignore_fields = 
+    tables.tablename1.fields.fieldname1.default = [value],timestamp,pid
+    
+
+}

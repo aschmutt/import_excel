@@ -1,0 +1,70 @@
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<f:be.container
+  addCssFile="{f:uri.resource(path:'Css/style.css')}"
+  addJsFile="{f:uri.resource(path:'Js/main.js')}"  >
+  
+<h1>Import Excel File</h1>
+
+<f:flashMessages />
+
+<form action="" method="POST" enctype="multipart/form-data">
+	
+	<ol class="wizard-progress clearfix">
+	    <li class="finished-step">
+	        <span class="step-name">Upload Excel</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">1</span>
+	    </li>
+	    <li class="finished-step">
+	        <span class="step-name">Assign Fields</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">2</span>
+	    </li>
+	    <li class="finished-step">
+	        <span class="step-name">Import Preview</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">3</span>
+	    </li>
+	    <li class="active-step">
+	        <span class="step-name">Import</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">4</span>
+	    </li>
+	</ol>
+	<div class="clear"></div>
+
+	<table border="1">
+	    <f:for each="{insertlist}" key="index" as="row">
+	    <f:if condition="{index} == 0">
+	     <tr>
+	    	<f:for each="{row}" key="key" as="value">
+	    		<th>{key}</th>
+	    	</f:for>
+	    </tr>
+	    </f:if>
+	    <tr>
+	    	<f:for each="{row}" key="key" as="value">
+	    		<td>{value}</td>
+	    	</f:for>
+	    </tr>
+	    </f:for>
+	</table>
+	
+	    <br />
+	Done.
+	
+	
+</form>
+
+</f:be.container>
+</f:section>
+

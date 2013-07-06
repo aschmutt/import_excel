@@ -1,0 +1,71 @@
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+
+<f:be.container
+  addCssFile="{f:uri.resource(path:'Css/style.css')}"
+  addJsFile="{f:uri.resource(path:'Js/main.js')}"  >
+  
+<h1>Import Excel File</h1>
+
+<f:flashMessages />
+
+<form action="" method="POST" enctype="multipart/form-data">
+	
+	<ol class="wizard-progress clearfix">
+	    <li class="active-step">
+	        <span class="step-name">Upload Excel</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">1</span>
+	    </li>
+	    <li>
+	        <span class="step-name">Assign Fields</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">2</span>
+	    </li>
+	    <li>
+	        <span class="step-name">Import Preview</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">3</span>
+	    </li>
+	    <li>
+	        <span class="step-name">Import</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">4</span>
+	    </li>
+	</ol>
+	<div class="clear"></div>
+
+    <br />
+	<p>The file has to be in Excel Format *.xls</p>
+	
+	<table><tbody>
+		<tr><td><label for="filename">File to import</label></td><td>
+		    <input type="file" id="filename" name="filename" size="50"></td></tr>
+		<tr><td><label for="table">Table to write in</label></td>
+			<td><select name="table">
+			    <option value="">&nbsp;</option>
+			    <f:for each="{tablelist}" as="value" >
+			         <option value="{value}">{value}</option>
+			    </f:for>
+				</select>
+			</td>
+		</tr>
+		<tr><td>&nbsp;</td>
+			<td><input type="submit" value="Next &gt;"></td>
+		</tr>
+		</tbody>
+	</table>
+	<input type="hidden" name="uploadfile" value="{uploadfile}" />
+</form>
+
+  
+</f:be.container>
+</f:section>

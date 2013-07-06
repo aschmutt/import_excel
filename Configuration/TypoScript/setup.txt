@@ -1,0 +1,11 @@
+# Module configuration
+module.tx_importexcel {
+	persistence {
+		storagePid = {$module.tx_importexcel.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$module.tx_importexcel.view.templateRootPath}
+		partialRootPath = {$module.tx_importexcel.view.partialRootPath}
+		layoutRootPath = {$module.tx_importexcel.view.layoutRootPath}
+	}
+}

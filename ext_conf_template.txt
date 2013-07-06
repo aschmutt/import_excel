@@ -1,0 +1,9 @@
+# cat=basic; type=options[phpexcel_service,phpexcel_library,ownpath]; label=PHPExcel installation type: This extension requires a PHPExcel Installation. TYPO3 Extension "phpexcel_service" is recommended, but you can use Extension "phpexcel_library" or your own installation path as well. 
+phpexcel = phpexcel_service
+
+# cat=basic; type=string; label= Path to PHPExcel: absolute path to PHPExcel installation (path where PHPExcel.php can be found). Requires "ownpath" setting above.  
+phpexcel_path = 
+
+# cat=basic; type=string; label=Allowed import tables: Comma-separated list of tables for excel import
+tables = tx_importexcel_testtable
+

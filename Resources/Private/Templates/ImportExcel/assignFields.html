@@ -1,0 +1,77 @@
+<f:layout name="Default" />
+
+This Template is responsible for creating a table of domain objects.
+
+If you modify this template, do not forget to change the overwrite settings
+in /Configuration/ExtensionBuilder/settings.yaml:
+  Resources:
+    Private:
+      Templates:
+        List.html: keep
+
+Otherwise your changes will be overwritten the next time you save the extension in the extension builder
+
+<f:section name="content">
+<f:be.container
+  addCssFile="{f:uri.resource(path:'Css/style.css')}"
+  addJsFile="{f:uri.resource(path:'Js/main.js')}"  >
+
+<h1>Import Excel Files</h1>
+
+<f:flashMessages />
+
+<form action="" method="POST" enctype="multipart/form-data">
+	
+	<ol class="wizard-progress clearfix">
+	    <li class="finished-step">
+	        <span class="step-name">Upload Excel</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">1</span>
+	    </li>
+	    <li class="active-step">
+	        <span class="step-name">Assign Fields</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">2</span>
+	    </li>
+	    <li>
+	        <span class="step-name">Import Preview</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">3</span>
+	    </li>
+	    <li>
+	        <span class="step-name">Import</span>
+	        <span class="visuallyhidden">Step </span><span class="step-num">4</span>
+	    </li>
+	</ol>
+	<div class="clear"></div>
+
+    <table border="1">
+    <f:for each="{assignlist}" as="entry">
+		<tr>
+			<td>Field: {entry.fieldname}</td>
+			<td>
+			    <select name="assignment[{entry.fieldname}]">
+			    <f:for each="{entry.selectfield}" key="key" as="option">
+			             <option value="{option.value}"
+			            	<f:if condition="{option.selected} > 0">
+							   selected="selected"
+							</f:if>
+			             >{key}:{option.title}</option>
+			    </f:for>
+			    </select>
+			</td>
+		</tr>
+    </f:for>
+    </table>
+    
+    <br />
+	<input type="hidden" value="{table}" name="table" />
+	<input type="hidden" value="{uploadfile}" name="uploadfile" />
+    <f:link.action class="button" action="select" >&lt; Back</f:link.action> 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+    <input type="submit" class="button" value="Next &gt;">
+    
+    
+
+</form>
+
+</f:be.container>
+</f:section>
+
