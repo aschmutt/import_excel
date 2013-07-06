@@ -8,22 +8,15 @@
 .. _start:
 
 ========================================================================
-TYPO3 Documentation Starter  <- Change this to your title!
+Import Excel
 ========================================================================
 
-:Author:          My Name <my.name@domain.global>
+:Author:          Andrea Schmuttermair <spam@schmutt.de>
 :Buildinfo:       `Make folder <_make>`_ (if on docs.typo3.org)
-:Copyright:       2013 ...
-:Description:     This is a recommended template to start any ReST based
-                  documentation for TYPO3 (ReST = ReStructuredText)
+:Copyright:       2013 
+:Description:     Import Data from Excel Files into database table
 :License:         `CC BY-SA 3.0 <http://creativecommons.org/licenses/by-sa/3.0/>`_
 :Rendered:        |today|
-
-
-
-
-.. this link to a sitemap is very convenient as long as there isn't an
-   automatic sitemap in the documentation layout
    
 Sitemap
 =======
@@ -32,7 +25,6 @@ Sitemap
 
 ((This "Sitemap" chapter is just a model. Keep it, change it, 
 or remove it - as you like.))
-
 
 
 
@@ -82,7 +74,11 @@ or remove it - as you like.))
 Description
 ===========
 
-What this is all about ...
+Import data from Excel files into database tables. 
+You don't need any more CSV import, use Excel files (*.xls) directly. 
+
+Uses PHP Excel
+
 
 ((This "Description" chapter is just a model. Keep it, change it, 
 or remove it - as you like.))
