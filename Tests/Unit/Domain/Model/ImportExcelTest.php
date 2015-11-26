@@ -49,12 +49,61 @@ class Tx_ImportExcel_Domain_Model_ImportExcelTest extends Tx_Extbase_Tests_Unit_
 	public function tearDown() {
 		unset($this->fixture);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getTitleReturnsInitialValueForString() { }
+
+	/**
+	 * @test
+	 */
+	public function setTitleForStringSetsTitle() { 
+		$this->fixture->setTitle('Conceived at T3CON10');
+
+		$this->assertSame(
+			'Conceived at T3CON10',
+			$this->fixture->getTitle()
+		);
+	}
 	
 	/**
 	 * @test
 	 */
-	public function dummyTestToNotLeaveThisFileEmpty() {
-		$this->markTestIncomplete();
+	public function getDescriptionReturnsInitialValueForString() { }
+
+	/**
+	 * @test
+	 */
+	public function setDescriptionForStringSetsDescription() { 
+		$this->fixture->setDescription('Conceived at T3CON10');
+
+		$this->assertSame(
+			'Conceived at T3CON10',
+			$this->fixture->getDescription()
+		);
+	}
+	
+	/**
+	 * @test
+	 */
+	public function getFieldIntReturnsInitialValueForInteger() { 
+		$this->assertSame(
+			0,
+			$this->fixture->getFieldInt()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setFieldIntForIntegerSetsFieldInt() { 
+		$this->fixture->setFieldInt(12);
+
+		$this->assertSame(
+			12,
+			$this->fixture->getFieldInt()
+		);
 	}
 	
 }

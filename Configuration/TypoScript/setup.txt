@@ -8,4 +8,34 @@ module.tx_importexcel {
 		partialRootPath = {$module.tx_importexcel.view.partialRootPath}
 		layoutRootPath = {$module.tx_importexcel.view.layoutRootPath}
 	}
+	settings {
+	    # This extension requires a PHPExcel Installation. TYPO3 Extension "phpexcel_service" is recommended, but you can use Extension "phpexcel_library" or your own installation path as well.
+	    # one of: phpexcel_service,phpexcel_library,ownpath] 
+        phpexcel = phpexcel_service
+
+        # Path to PHPExcel: absolute path to PHPExcel installation (path where PHPExcel.php can be found). Requires "ownpath" setting above.  
+        phpexcel_path = 
+
+        # Allowed import tables: Comma-separated list of table names 
+        tables.allowed = tx_importexcel_domain_model_importexcel
+        
+        # Ignore fields - they don't show up in the selection: tables.<tablename>
+        tables.tx_importexcel_domain_model_importexcel.ignore_fields = cruser_id,deleted,hidden,starttime,endtime,t3_origuid,sys_language_uid,l10n_parent,l10n_diffsource,t3ver_oid,t3ver_id,t3ver_wsid,t3ver_label,t3ver_state,t3ver_stage,t3ver_count,t3ver_tstamp,t3ver_move_id,sorting
+        
+        # optional field configuration: 
+        # tables.<tablename>.config.<fieldname>  
+        # default = default value for field
+        #           - timestamp: current value of time()
+        #           - pid: selected folder pid
+        # value = <string value>
+        tables.tx_importexcel_domain_model_importexcel.config {
+            tstamp.default = timestamp
+            crdate.default = timestamp
+            pid.default = pid
+        }
+        
+        # identifier field for overwrite check
+        tables.tx_importexcel_domain_model_importexcel.identifier.field = uid
+        
+	}
 }

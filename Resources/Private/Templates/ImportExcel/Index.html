@@ -1,0 +1,44 @@
+<f:layout name="Default" />
+
+<f:section name="content">
+
+<f:be.container
+    pageTitle="Import Excel" 
+    enableJumpToUrl="false" 
+    enableClickMenu="false" 
+    loadPrototype="false" 
+    loadScriptaculous="false"  
+    loadExtJs="true"
+    loadExtJs="true"  
+    loadExtJsTheme="false" 
+    enableExtJsDebug="true" 
+    addCssFile="{f:uri.resource(path:'Css/style.css')}"
+    addJsFile="{f:uri.resource(path:'Js/main.js')}"    
+>
+
+<script type="text/javascript">
+  Ext.Ajax.request({
+  url:'ajax.php',
+  params: {
+    ajaxID: 'importexcelAjaxDispatcher',
+    request: Ext.encode({
+      extensionName:'ImportExcel',
+      pluginName:'importexcel',
+      controllerName:'ImportExcel',
+      actionName:'testAjax'
+    })
+  },
+  success:function(response, request) {
+    alert(response);
+  },
+  failure: function(response, request) {
+       console.log('server-side failure with status code ' + response.status);
+  }
+});
+   
+   
+   
+   </script>
+    
+</f:be.container>
+</f:section>

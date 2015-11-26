@@ -7,6 +7,11 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="tx_importexcel_domain_model_importexcel">ImportExcel</label>
+			<label index="tx_importexcel_domain_model_importexcel.title">title</label>
+			<label index="tx_importexcel_domain_model_importexcel.description">description</label>
+			<label index="tx_importexcel_domain_model_importexcel.field_int">fieldInt</label>
+			<label index="tx_importexcel.select.title">Import Excel File</label>
+			<label index="tx_importexcel.error.settings">TypoScript settings missing. Find example in: EXT:import_excel/Configuration/TypoScript/setup.txt</label>
 		</languageKey>
 	</data>
 </T3locallang>

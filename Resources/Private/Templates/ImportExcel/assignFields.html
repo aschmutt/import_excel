@@ -1,28 +1,25 @@
 <f:layout name="Default" />
 
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="content">
-<f:be.container
-  addCssFile="{f:uri.resource(path:'Css/style.css')}"
-  addJsFile="{f:uri.resource(path:'Js/main.js')}"  >
+<f:be.container >
+
+  <link href="{f:uri.resource(path:'Js/jquery-ui-1.10.4/css/overcast/jquery-ui-1.10.4.custom.css')}" rel="stylesheet">
+  <link href="{f:uri.resource(path:'Css/style.css')}" rel="stylesheet">
+  
+  <script tpye="text/javascript" src="{f:uri.resource(path:'Js/jquery-1.8.3.min.js')}"></script>
+  <script type="text/javascript">jQuery.noConflict();</script>
+  <script tpye="text/javascript" src="{f:uri.resource(path:'Js/jquery-ui-1.10.4/js/jquery-ui-1.10.4.custom.min.js')}"></script>
+  <script tpye="text/javascript" src="{f:uri.resource(path:'Js/main.js')}"></script>
+  
 
 <h1>Import Excel Files</h1>
 
 <f:flashMessages />
+    
 
 <form action="" method="POST" enctype="multipart/form-data">
-	
-	<ol class="wizard-progress clearfix">
+    
+    <ol class="wizard-progress clearfix">
 	    <li class="finished-step">
 	        <span class="step-name">Upload Excel</span>
 	        <span class="visuallyhidden">Step </span><span class="step-num">1</span>
@@ -40,12 +37,24 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	        <span class="visuallyhidden">Step </span><span class="step-num">4</span>
 	    </li>
 	</ol>
-	<div class="clear"></div>
+	<div class="clear"></div><br />
+	
+	<input type="hidden" value="{table}" name="table" />
+    <input type="hidden" value="{uploadfile}" name="uploadfile" />
+    <f:link.action id="backButton" action="select" >&lt; Back</f:link.action> 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+    <input type="submit" id="nextButton" value="Next &gt;">
+    
+    <div class="clear"></div><br />
 
     <table border="1">
+        <tr>
+            <th>Database Field</th>
+            <th>Excel Field</th>
+        </tr>
     <f:for each="{assignlist}" as="entry">
 		<tr>
-			<td>Field: {entry.fieldname}</td>
+			<td>{entry.fieldname}</td>
 			<td>
 			    <select name="assignment[{entry.fieldname}]">
 			    <f:for each="{entry.selectfield}" key="key" as="option">
@@ -53,7 +62,7 @@ Otherwise your changes will be overwritten the next time you save the extension 
 			            	<f:if condition="{option.selected} > 0">
 							   selected="selected"
 							</f:if>
-			             >{key}:{option.title}</option>
+			             >{option.title}</option>
 			    </f:for>
 			    </select>
 			</td>
@@ -61,14 +70,10 @@ Otherwise your changes will be overwritten the next time you save the extension 
     </f:for>
     </table>
     
-    <br />
-	<input type="hidden" value="{table}" name="table" />
-	<input type="hidden" value="{uploadfile}" name="uploadfile" />
-    <f:link.action class="button" action="select" >&lt; Back</f:link.action> 
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-    <input type="submit" class="button" value="Next &gt;">
-    
-    
+    <script>
+        jQuery("#backButton").button();
+        jQuery("#nextButton").button();
+    </script>
 
 </form>
 

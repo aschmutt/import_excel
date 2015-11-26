@@ -1,26 +1,15 @@
 <f:layout name="Default" />
 
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="content">
 
 <f:be.container
   addCssFile="{f:uri.resource(path:'Css/style.css')}"
   addJsFile="{f:uri.resource(path:'Js/main.js')}"  >
   
-<h1>Import Excel File</h1>
-
+<h1><f:translate key="tx_importexcel.select.title" /></h1>
 <f:flashMessages />
 
+<f:if condition="{tablelist}!=null">
 <form action="" method="POST" enctype="multipart/form-data">
 	
 	<ol class="wizard-progress clearfix">
@@ -41,9 +30,8 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	        <span class="visuallyhidden">Step </span><span class="step-num">4</span>
 	    </li>
 	</ol>
-	<div class="clear"></div>
+	<div class="clear"></div><br />
 
-    <br />
 	<p>The file has to be in Excel Format *.xls</p>
 	
 	<table><tbody>
@@ -65,6 +53,11 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	</table>
 	<input type="hidden" name="uploadfile" value="{uploadfile}" />
 </form>
+</f:if>
+
+<div class="clear"></div>
+<div id="extjsDiv"></div>
+
 
   
 </f:be.container>

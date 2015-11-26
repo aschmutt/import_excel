@@ -32,47 +32,121 @@
  *
  */
 class Tx_ImportExcel_Domain_Repository_ImportExcelRepository extends Tx_Extbase_Persistence_Repository {
-	
-	
+
 	/**
-    * initialize: ignore pid for queries
-    * @return void
-    */
-    public function initializeObject() {
-        $querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
-        $querySettings->setRespectStoragePage(FALSE);
-        $this->setDefaultQuerySettings($querySettings);
-    }
-	
-	 /**
-     * get field names
-     * @param string $table tablename
-     * @return array field names
-     */
-    public function getFieldNames($table) {
-		
-        $ignore_fields = array('uid','pid','tstamp','crdate','cruser_id','deleted','hidden','starttime','endtime','t3_origuid','sys_language_uid','l10n_parent','l10n_diffsource','t3ver_oid','t3ver_id','t3ver_wsid','t3ver_label','t3ver_state','t3ver_stage','t3ver_count','t3ver_tstamp','t3ver_move_id','sorting');
+	 * initialize: ignore pid for queries
+	 *
+	 * @return void
+	 */
+	public function initializeObject() {
+		        $querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
+		        $querySettings->setRespectStoragePage(FALSE);
+		        $this->setDefaultQuerySettings($querySettings);
+	}
+
+	/**
+	 * get field names
+	 *
+	 * @param string $table tablename
+     * @param string $tableSettings TS Settings for table
+	 * @return array field names
+	 */
+	public function getFieldNames($table,$tableSettings="") {
         
-		/*$query = $this->createQuery();
+        $ignoreFields = explode(",",$tableSettings['ignore_fields']);
+		
+		$query = $this->createQuery();
 		$query->getQuerySettings()->setReturnRawQueryResult(TRUE);
 		$query->statement('SHOW columns from '.$table);
-		//$query->statement('SELECT column_name FROM information_schema.columns WHERE table_name = ?', array($table));    
-		$result = $query->execute();*/
+		$results = $query->execute();
+        
+        $fields = array();
+        foreach ($results as $fieldrow) {
+            if (!in_array($fieldrow['Field'], $ignoreFields)) {
+                $fields[] = $fieldrow['Field'];
+            }
+        }
 		
-		$fields = array();
-		$res = $GLOBALS['TYPO3_DB']->sql(TYPO3_db, 'SHOW columns from '.$table);	
-		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-		    if (!in_array($row['Field'], $ignore_fields)) {
-		      $fields[] = $row['Field'];    
-		    }
-			
-		}
 		//var_dump($fields);
-       	return $fields;              
+       	return $fields;
+	}
+    
+    /**
+     * get field names
+     *
+     * @param string $table tablename
+     * @param string $identifier 
+     * @param array $data from Excel
+     * @param array $assignment
+     * @return array field names
+     */
+    public function getOverwrites($table, $identifier,$data,$assignment,$fields) {
+        
+        $codesList = "'";
+        $count=0;
+        foreach($data as $row) {
+            //skip first row as title row    
+            if ($count++>0){
+                $value = $row[$assignment[$identifier]];
+                if ( ((int)$value>0) || (strlen($value)>0) ){
+                    $codesList .=  $value. "','";    
+                }
+            }
+        }
+        $codesList = substr($codesList,0,strlen($codesList)-2);
+        
+        $query = $this->createQuery();
+        $query->getQuerySettings()->setReturnRawQueryResult(TRUE);
+        $sqlStatement = 'SELECT * FROM '.$table.' WHERE ' . $identifier . ' in ('.$codesList.')';
+        //var_dump($sqlStatement);
+        $query->statement($sqlStatement);
+        $results = $query->execute();
+        
+        $output = array();
+        
+        foreach ($results as $row) {
+            $outputRow = array();
+            foreach ($row as $key=>$value) {
+                if ((array_key_exists($key, $assignment)) && ($assignment[$key] >= 0)) {
+                    $outputRow["$key"]=$value;
+                }
+            }
+            
+            $ident = $row[$identifier];
+            $output[$ident]=$outputRow;    
+        }
+                    
+        return $output;
     }
-	
-	
-	
+    
+    /**
+     * @param string $table tablename
+     * @param array $data data for insert statement
+     * @return void
+     * */
+    public function insertData($table, $data){
+        
+        foreach($data as $row) {
+            //print_r($GLOBALS['TYPO3_DB']->INSERTquery($table, $row));
+            $GLOBALS['TYPO3_DB']->exec_INSERTquery($table, $row);
+        }    
+    }
+    
+    /**
+     * @param string $table tablename
+     * @param array $data data for insert statement
+     * @param string $identifer something like "uid"
+     * @return void
+     * */
+    public function updateData($table, $data, $identifier){
+        
+        foreach($data as $row) {
+            $where = ' '. $identifier . ' like "'.$row[$identifier].'" ';
+            //print_r($GLOBALS['TYPO3_DB']->UPDATEquery($table, $where, $row));
+            $GLOBALS['TYPO3_DB']->exec_UPDATEquery($table, $where, $row);
+        }    
+    }
+
 }
 
 ?>

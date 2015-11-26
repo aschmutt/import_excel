@@ -1,0 +1,22 @@
+
+
+<table id="{tableId}" style="clear:both;"> 
+    <f:for each="{array}" key="index" as="row" iteration="iterator">
+    <f:if condition="{iterator.isFirst}">
+        <thead>
+            <tr>
+                <f:for each="{row}" key="key" as="value">
+                    <th>{key}</th>
+                </f:for>
+            </tr>
+        </thead>
+        <tbody>
+    </f:if>
+    <tr>
+        <f:for each="{row}" key="key" as="value">
+            <td>{value}</td>
+        </f:for>
+    </tr>
+    </f:for>
+    </tbody>
+</table>

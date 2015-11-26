@@ -1,23 +1,24 @@
 <f:layout name="Default" />
 
-This Template is responsible for creating a table of domain objects.
-
-If you modify this template, do not forget to change the overwrite settings
-in /Configuration/ExtensionBuilder/settings.yaml:
-  Resources:
-    Private:
-      Templates:
-        List.html: keep
-
-Otherwise your changes will be overwritten the next time you save the extension in the extension builder
-
 <f:section name="content">
 
-<f:be.container
-  addCssFile="{f:uri.resource(path:'Css/style.css')}"
-  addJsFile="{f:uri.resource(path:'Js/main.js')}"  >
+<f:be.container>
+    
+  <link href="{f:uri.resource(path:'Js/jquery-ui-1.10.4/css/overcast/jquery-ui-1.10.4.custom.css')}" rel="stylesheet">
+  <link href="{f:uri.resource(path:'Js/DataTables-1.9.4/media/css/demo_table.css')}" rel="stylesheet">
+  <link href="{f:uri.resource(path:'Css/style.css')}" rel="stylesheet">
+  
+  <script tpye="text/javascript" src="{f:uri.resource(path:'Js/jquery-1.8.3.min.js')}"></script>
+  <script type="text/javascript">jQuery.noConflict();</script>
+  <script tpye="text/javascript" src="{f:uri.resource(path:'Js/jquery-ui-1.10.4/js/jquery-ui-1.10.4.custom.min.js')}"></script>
+  <script type="text/javascript" language="javascript" src="{f:uri.resource(path:'Js/DataTables-1.9.4/media/js/jquery.dataTables.js')}"></script>
+  <script tpye="text/javascript" src="{f:uri.resource(path:'Js/main.js')}"></script>
+    
 
 <h1>Import Excel File</h1>
+
+
+
 
 <f:flashMessages />
 
@@ -41,41 +42,66 @@ Otherwise your changes will be overwritten the next time you save the extension 
 	        <span class="visuallyhidden">Step </span><span class="step-num">4</span>
 	    </li>
 	</ol>
-	<div class="clear"></div>
+	<div class="clear"></div><br />
 	
-	<f:link.action class="button" action="assignFields" arguments="{table:table,uploadfile:uploadfile}" >
+	<f:link.action id="backButton" action="assignFields" arguments="{table:table,uploadfile:uploadfile}" >
     &lt; Back
-    </f:link.action> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-    <f:link.action class="button" action="doImport" arguments="{table:table,uploadfile:uploadfile,assignment:assignment}" >
-    Import Now! &gt;
+    </f:link.action> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    
+    <f:link.action id="importNewButton" action="doImport" arguments="{table:table,uploadfile:uploadfile,assignment:assignment,overwrite:0}" >
+    Import New Data
+    </f:link.action>&nbsp;&nbsp;&nbsp;&nbsp;
+       
+    <f:link.action id="importButton" action="doImport" arguments="{table:table,uploadfile:uploadfile,assignment:assignment,overwrite:1}" >
+    Import All (overwrite!)
     </f:link.action>
-
-	<table border="1">
-	    <f:for each="{insertlist}" key="index" as="row">
-	    <f:if condition="{index} == 0">
-	     <tr>
-	    	<f:for each="{row}" key="key" as="value">
-	    		<th>{key}</th>
-	    	</f:for>
-	    </tr>
-	    </f:if>
-	    <tr>
-	    	<f:for each="{row}" key="key" as="value">
-	    		<td>{value}</td>
-	    	</f:for>
-	    </tr>
-	    </f:for>
-	</table>
-	
-	    <br />
-	<f:link.action class="button" action="assignFields" arguments="{table:table,uploadfile:uploadfile}" >
-	&lt; Back
-	</f:link.action> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-	<f:link.action class="button" action="doImport" arguments="{table:table,uploadfile:uploadfile,assignment:assignment}" >
-	Import Now! &gt;
-	</f:link.action>
-	 <br /> <br /> <br /> <br /> <br />
-	
+    
+    <div class="clear"></div><br />
+    
+    <div id="tabs">
+        <ul>
+            <li>
+                <a href="#fragment-1"><span>New Data</span></a>
+            </li>
+            <li>
+                <a href="#fragment-2"><span>Duplicate Code in Excel</span></a>
+            </li>
+            <li>
+                <a href="#fragment-3"><span>Duplicate Code in Database</span></a>
+            </li>
+        </ul>
+        <div id="fragment-1" style="backgrund-color:#ffffff;">
+            <p>Displaying <f:count subject="{insertlist}" /> fields of {insertNum}</p>
+            <f:render partial="ImportExcel/Table" arguments="{array:insertlist,tableId:'insertTable'}"/>
+        </div>
+        <div id="fragment-2" style="backgrund-color:#ffffff;">
+            <p>Displaying <f:count subject="{updatelist}" /> fields of {updateNum}</p>
+            <f:render partial="ImportExcel/Table" arguments="{array:updatelist,tableId:'updateTable'}"/>
+        </div>
+        <div id="fragment-3" style="backgrund-color:#ffffff;">
+            <p>Displaying <f:count subject="{existinglist}" /> fields of {updateNum}</p>
+            <f:render partial="ImportExcel/Table" arguments="{array:existinglist,tableId:'existingTable'}"/>
+            
+        </div>
+    </div>
+    <script>
+    jQuery(document).ready(function() {
+        jQuery("#tabs").tabs();
+        jQuery("#backButton").button();
+        jQuery("#importNewButton").button();
+        jQuery("#importButton").button();
+        if (jQuery("#insertTable tr").length) {
+            jQuery("#insertTable").dataTable();    
+        }
+        if (jQuery("#updateTable tr").length) {
+            jQuery("#updateTable").dataTable();
+        }
+        if (jQuery("#existingTable tr").length) {
+            jQuery("#existingTable").dataTable();
+        }
+    });
+    </script>
+  
 	
 </form>
 
